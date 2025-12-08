@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { createEmployee, getEmployee, updateEmployee } from '../services/EmployeeServices';
+import { toast } from 'react-toastify'
 
 const EmployeeComponent = () => {
     const [firstName, setFirstName] = useState('');
@@ -38,19 +39,23 @@ const EmployeeComponent = () => {
                 // Update existing employee
                 updateEmployee(id,employee).then((response) => {
                      console.log('Employee updated successfully', response.data);
+                     toast.success('Employee updated successfully')
                      navigate('/employees');
                 }).catch((error) => {
                     console.error('Something went wrong', error);
+                     toast.error('Failed to update employee: ' + (error?.message || 'Unknown error'))
                 });
                 
             }else{
                 createEmployee(employee)
                 .then((response) => {
                     console.log('Employee added successfully', response.data);
+                    toast.success('Employee added successfully')
                     navigate('/employees');
                 })
                 .catch((error) => {
                     console.error('Something went wrong', error);
+                    toast.error('Failed to add employee: ' + (error?.message || 'Unknown error'))
                 });
             }
             
